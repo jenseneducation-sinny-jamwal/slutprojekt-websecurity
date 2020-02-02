@@ -7,10 +7,21 @@ module.exports = {
     // Insert user into database
     // If content argument is missing, use empty string
     // Return the created resource
+
+    
     async create(body){
+
         return await usersDB.insert({
-            content: body.content || "",
-        })
+            name: body.name ,
+            email:body.email,
+            password:body.password,
+            adress:{
+                street:body.adress.street,
+                zip: body.adress.zip,
+                city:body.adress.city
+
+            }
+        }) 
     },
 
     // Find the user with the corresponding ID
