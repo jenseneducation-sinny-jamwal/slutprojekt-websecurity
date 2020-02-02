@@ -2,9 +2,9 @@ const express = require('express')
 const app = express()
 const Datastore = require('nedb')
 
-//const usersDB = new Datastore('/model/users.db') 
+const usersDB = new Datastore('/model/users.db') 
 //connecting db
-//usersDB.loadDatabase();
+usersDB.loadDatabase();
 
 
 // importing Routes gor auth

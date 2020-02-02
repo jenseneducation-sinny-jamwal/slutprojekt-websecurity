@@ -2,60 +2,67 @@ var  Datastore  =  require('nedb');
 var  usersDB =  new  Datastore({ filename:  'users.db', autoload:  true });
 usersDB.loadDatabase();
 
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+require('dotenv').config()
+
+
 module.exports = {
-
-    // Insert user into database
-    // If content argument is missing, use empty string
-    // Return the created resource
-
-    
-    async create(body){
-
-        return await usersDB.insert({
-            name: body.name ,
-            email:body.email,
-            password:body.password,
-            adress:{
-                street:body.adress.street,
-                zip: body.adress.zip,
-                city:body.adress.city
-
+    async newUser(body) {
+        if (body.password === body.repeatPassword) {
+            const user = await  usersDB.findOne({ email: body.email })
+            if (user) {
+                return false;
+            } else {
+                const hashedPassword = await bcrypt.hash(body.password, 10)
+                const myNewUser = {
+                    name: body.name,
+                    email: body.email,
+                    password: hashedPassword,
+                    role: "admin",
+                    
+                    
+                    adress: {
+                        street: body.adress.street,
+                        zip: body.adress.zip,
+                        city: body.adress.city
+                    }
+                };
+                return await  usersDB.insert(myNewUser);
             }
-        }) 
+        } else {
+            return false;
+        }
     },
 
-    // Find the user with the corresponding ID
-    // Return the resource
-    async get(userID){
-        return await usersDB.findOne({_id:userID})
-    },
-
-    // Find all users
-    // Return the resources
-    async all(){
-        return await usersDB.find({})
-    },
-
-    // Try to remove the user with corresponding ID
-    // Returns if any documents were removed
-    async remove(userID){
-        const numDeleted = await usersDB.remove({_id:userID})
-        return numDeleted > 0
-    },
-
-    // Try to update the user with corresponding ID
-    // Returns if any user were updated
-    async update(userID, body){        
-        const numUpdated = await usersDB.update(
-            {_id:userID},
-            {$set:{
-                    content: body.content || usersDB.content
-            }}
-        )
-        return numUpdated > 0
+    async userLogin(body) {
+        const user = await  usersDB.findOne({});
+        if (user.email !== body.email) {
+            return false
+        } else {
+            const passwordMatch = await bcrypt.compare(body.password, user.password)
+            if (passwordMatch) {
+                const payload = {
+                    token: "JWT_TOKEN",
+                    user: {
+                        email: user.email,
+                        name: user.name,
+                        role: user.role,
+                        adress: {
+                            street: user.adress.street,
+                            city: user.adress.city,
+                            zip: user.adress.zip
+                        }
+                    }
+                }
+                const secret = process.env.SECRET
+                return jwt.sign(payload, secret)
+            } else {
+                return false
+            }
+        }
     }
-}
-
+};
 
 
 
