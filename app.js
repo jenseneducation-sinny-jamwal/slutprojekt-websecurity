@@ -2,18 +2,16 @@ const express = require('express')
 const app = express()
 const Datastore = require('nedb')
 
-const usersDB = new Datastore('/model/users.db') 
+//const usersDB = new Datastore('/model/users.db') 
 //connecting db
-usersDB.loadDatabase();
+//usersDB.loadDatabase();
 
 
-// importing Routes gor auth
+// importing Routes for  user auth , product and order
 
 const authRoute = require('./routes/auth');
 const productRoute = require('./routes/productRoute');
-
-
-
+const  orderRoute = require('./routes/orderRoute');
 
 app.use(express.static('public'))
 
@@ -24,9 +22,10 @@ app.use(express.json());
 
 
 
-
 app.use('/api/',authRoute);   // user auth Route Middleware
 app.use('/api/',productRoute); // prouduct Route middleware
+app.use('/api/', orderRoute);   
+
 
 
 app.listen(3000, () => console.log("Server started"))

@@ -3,8 +3,6 @@ const router = new Router();
 const productDB = require('../model/product');
 
 router.get('/products', async(req,res) =>{
-    
-    
     const product = await productDB.all()
     res.json(product)
     

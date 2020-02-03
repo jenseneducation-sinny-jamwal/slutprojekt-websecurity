@@ -1,5 +1,5 @@
-const Datastore  =  require('nedb');
-const productDB =  new Datastore({ filename:'/Data/product.db', autoload: true });
+const Datastore  =  require('nedb-promise');
+const productDB =  new Datastore({ filename:'Data/product.db', autoload: true });
 
 module.exports ={
     async  all(){

@@ -1,4 +1,4 @@
-var  Datastore  =  require('nedb');
+var  Datastore  =  require('nedb-promise');
 var  usersDB =  new  Datastore({ filename:'Data/users.db', autoload:  true });
 usersDB.loadDatabase();
 
