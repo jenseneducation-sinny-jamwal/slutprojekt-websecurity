@@ -1,18 +1,17 @@
 
 const {Router} = require('express');
 const router = new Router();
-
-const bcrypt  =  require('bcryptjs');
+const bcrypt  =  require('bcrypt');
 const jwt = require("jsonwebtoken");
 const User = require('../model/user.js');   // importing user model
 
 
 
-
+/*
 router.get('/', async (req,res) => {
     const user = await User.all()
     res.json(user)
-})
+}) */
 
 
 

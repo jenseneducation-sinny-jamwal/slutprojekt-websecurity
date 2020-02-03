@@ -1,5 +1,5 @@
 var  Datastore  =  require('nedb');
-var  usersDB =  new  Datastore({ filename:  'users.db', autoload:  true });
+var  usersDB =  new  Datastore({ filename:'Data/users.db', autoload:  true });
 usersDB.loadDatabase();
 
 const bcrypt = require("bcryptjs");

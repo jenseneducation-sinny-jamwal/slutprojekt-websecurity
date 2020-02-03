@@ -10,7 +10,7 @@ usersDB.loadDatabase();
 // importing Routes gor auth
 
 const authRoute = require('./routes/auth');
-//const productRoute = require('./routes/productRoute');
+const productRoute = require('./routes/productRoute');
 
 
 
@@ -24,9 +24,9 @@ app.use(express.json());
 
 
 
-//auth Route Middleware
-app.use('/api/',authRoute);
-//app.use('/api/',productRoute)
+
+app.use('/api/',authRoute);   // user auth Route Middleware
+app.use('/api/',productRoute); // prouduct Route middleware
 
 
 app.listen(3000, () => console.log("Server started"))
