@@ -11,7 +11,7 @@ module.exports = {
     async newUser(body) {
         if (body.password === body.repeatPassword) {
             const user = await  usersDB.findOne({ email: body.email })
-            if (user) {
+            if (!user) {
                 return false;
             } else {
                 const hashedPassword = await bcrypt.hash(body.password, 10)
@@ -28,7 +28,7 @@ module.exports = {
                         city: body.adress.city
                     }
                 };
-                return await  usersDB.insert(myNewUser);
+                return await usersDB.insert(myNewUser);
             }
         } else {
             return false;
@@ -45,14 +45,15 @@ module.exports = {
                 const payload = {
                     token: "JWT_TOKEN",
                     user: {
-                        email: user.email,
-                        name: user.name,
-                        role: user.role,
-                        adress: {
-                            street: user.adress.street,
-                            city: user.adress.city,
-                            zip: user.adress.zip
-                        }
+                     email: user.email,
+                     name: user.name,
+                     role: user.role,
+
+                     adress: {
+                     street: user.adress.street,
+                     city: user.adress.city,
+                     zip: user.adress.zip
+                      }
                     }
                 }
                 const secret = process.env.SECRET
@@ -62,7 +63,7 @@ module.exports = {
             }
         }
     }
-};
+}
 
 
 

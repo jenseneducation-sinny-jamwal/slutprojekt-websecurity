@@ -1,11 +1,13 @@
 
 const {Router} = require('express');
 const router = new Router();
+
 const bcrypt  =  require('bcryptjs');
 const jwt = require("jsonwebtoken");
+const User = require('../model/user.js');   // importing user model
 
-// importing user model
-const User = require('../model/user');
+
+
 
 router.get('/', async (req,res) => {
     const user = await User.all()
@@ -16,16 +18,16 @@ router.get('/', async (req,res) => {
 
 router.post('/register', async(req,res) =>{
 
-    const user = await User.newUser(req.body)
+    const  user = await User.newUser(req.body)
     if (user) {
-        res.json(user)
+        res.json(user);
     } else {
         res.send(' problem with register');
     }
 });
 
 
-router.post("/auth", async (req, res) => {
+router.post('/auth', async (req, res) => {
     const userAuth = await User.userLogin(req.body)
     const secret = process.env.SECRET
     if (userAuth) {
