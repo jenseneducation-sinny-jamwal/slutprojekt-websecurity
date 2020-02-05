@@ -18,7 +18,7 @@ router.get('/order/:id', async (req, res) => {
     }
 });
 
-router.post('/order', async (req, res) => {
+router.post('/orders', async (req, res) => {
     const order = await orderDB.create(req.body);
     if(order){
         res.json(order)

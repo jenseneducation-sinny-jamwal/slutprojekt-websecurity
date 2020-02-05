@@ -1,10 +1,6 @@
 const express = require('express')
 const app = express()
-const Datastore = require('nedb')
 
-//const usersDB = new Datastore('/model/users.db') 
-//connecting db
-//usersDB.loadDatabase();
 
 
 // importing Routes for  user auth , product and order

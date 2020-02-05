@@ -1,6 +1,6 @@
-var  Datastore  =  require('nedb-promise');
-var  usersDB =  new  Datastore({ filename:'Data/users.db', autoload:  true });
-usersDB.loadDatabase();
+const Datastore  =  require('nedb-promise');
+const usersDB =  new  Datastore({ filename:'Data/users.db', autoload:  true });
+//usersDB.loadDatabase();
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -35,32 +35,53 @@ module.exports = {
         }
     },
 
+
     async userLogin(body) {
-        const user = await  usersDB.findOne({});
+        const user = await  usersDB.findOne({email:body.email});
         if (user.email !== body.email) {
             return false
         } else {
             const passwordMatch = await bcrypt.compare(body.password, user.password)
             if (passwordMatch) {
+
+
                 const payload = {
-                    token: "JWT_TOKEN",
+                    
+                    email: user.email,
+                    role:user.role,
+                    _id: user._id
+                    
+                }
+                const secret = process.env.TOKEN_SECRET
+                const token = jwt.sign(payload, secret);
+                console.log(token);
+
+                const userAuth = {
+                    token: user.token,
+
                     user: {
                      email: user.email,
                      name: user.name,
                      role: user.role,
-
+ 
                      adress: {
                      street: user.adress.street,
                      city: user.adress.city,
                      zip: user.adress.zip
                       }
-                    }
+                    } 
                 }
-                const secret = process.env.SECRET
-                return jwt.sign(payload, secret)
-            } else {
+                
+               
+              
+                
+            }
+        
+             else {
                 return false
             }
+               
+        
         }
     }
 }

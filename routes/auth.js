@@ -27,10 +27,10 @@ router.post('/register', async(req,res) =>{
 
 
 router.post('/auth', async (req, res) => {
-    const userAuth = await User.userLogin(req.body)
+    const TOKEN = await User.userLogin(req.body)
     const secret = process.env.SECRET
-    if (userAuth) {
-        const verify = jwt.verify(userAuth, secret)
+    if (TOKEN) {
+        const verify = jwt.verify(TOKEN, secret)
         res.json(verify)
     } else {
         res.send(" not authorized");
