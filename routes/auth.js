@@ -7,13 +7,6 @@ const User = require('../model/user.js');   // importing user model
 
 
 
-/*
-router.get('/', async (req,res) => {
-    const user = await User.all()
-    res.json(user)
-}) */
-
-
 
 router.post('/register', async(req,res) =>{
 
@@ -26,14 +19,13 @@ router.post('/register', async(req,res) =>{
 });
 
 
-router.post('/auth', async (req, res) => {
-    const TOKEN = await User.userLogin(req.body)
-    const secret = process.env.SECRET
+ router.post('/auth', async (req, res) => {
+   const TOKEN = await User.userLogin(req.body)
     if (TOKEN) {
-        const verify = jwt.verify(TOKEN, secret)
-        res.json(verify)
+        //const verify = jwt.verify(TOKEN, secret)
+        res.json(TOKEN)
     } else {
-        res.send(" not authorized");
+        res.send("not authorized");
     }
 });
 
