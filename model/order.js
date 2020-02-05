@@ -10,7 +10,7 @@ async orderDB(){
  async create(body) {
      const newOrder = {
 
-        _id: body.id,
+    
         timeStamp: Date.now(),
          status: "inProcess",
          items: body.items,

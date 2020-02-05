@@ -51,6 +51,7 @@ module.exports = {
                  }
                     const secret = process.env.TOKEN_SECRET
                     const token = jwt.sign(payload, secret);
+                    console.log(token)
            
 
                      const userAuth = {

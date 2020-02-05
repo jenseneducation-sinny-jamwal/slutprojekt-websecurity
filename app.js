@@ -20,7 +20,7 @@ app.use(express.json());
 
 app.use('/api/',authRoute);   // user auth Route Middleware
 app.use('/api/',productRoute); // prouduct Route middleware
-app.use('/api/', orderRoute);   
+app.use('/api/orders', orderRoute);   
 
 
 
