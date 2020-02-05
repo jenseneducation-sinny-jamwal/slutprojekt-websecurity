@@ -15,7 +15,7 @@ module.exports = {
                 return false;
             } else {
                 const hashedPassword = await bcrypt.hash(body.password, 10)
-                const myNewUser = {
+                const newUser = {
                     name: body.name,
                     email: body.email,
                     password: hashedPassword,
@@ -27,8 +27,8 @@ module.exports = {
                         zip: body.adress.zip,
                         city: body.adress.city
                     }
-                };
-                return await usersDB.insert(myNewUser);
+                }
+                return await usersDB.insert(newUser);
             }
         } else {
             return false;
@@ -42,39 +42,34 @@ module.exports = {
             return false
         } else {
             const passwordMatch = await bcrypt.compare(body.password, user.password)
-            
-            if (passwordMatch) {
-                     
-                const userAuth = {
-                   
+                if (passwordMatch) {
+                         const payload = {
+                          email: user.email,
+                           role:user.role,
+                           _id: user._id
+               
+                 }
+                    const secret = process.env.TOKEN_SECRET
+                    const token = jwt.sign(payload, secret);
+           
 
-                    user: {
-                     email: user.email,
-                     name: user.name,
-                     role: user.role,
+                     const userAuth = {
+
+                        token:token,
+                      user: {
+                           email: user.email,
+                            name: user.name,
+                            role: user.role,
  
                      adress: {
                      street: user.adress.street,
                      city: user.adress.city,
                      zip: user.adress.zip
-                      }
+                      },
                     } 
-                }
-                const payload = {
-                    email: user.email,
-                     role:user.role,
-                   _id: user._id
-               
-                
-           }
-            const secret = process.env.TOKEN_SECRET
-            const token = jwt.sign(payload, secret);
-            console.log(token);
+                     } 
+                     return userAuth
 
-                
-               return userAuth
-              
-                
             }
         
              else {
@@ -84,7 +79,7 @@ module.exports = {
         
         }
     }
-}
+};
 
 
 

@@ -7,29 +7,33 @@ const User = require('../model/user.js');   // importing user model
 
 
 
+router.post('/auth', async (req, res) => {
+    const TOKEN = await User.userLogin(req.body)
+     if (TOKEN) {
+        
+         res.json(TOKEN)
+     } else {
+         res.send("not authorized");
+     }
+ });
+ 
+
 
 router.post('/register', async(req,res) =>{
 
     const  user = await User.newUser(req.body)
     if (user) {
-        res.json(user);
+        res.json({
+            message: "new user  is regestered"
+        })
     } else {
         res.send(' problem with register');
     }
 });
 
 
- router.post('/auth', async (req, res) => {
-   const TOKEN = await User.userLogin(req.body)
-    if (TOKEN) {
-        //const verify = jwt.verify(TOKEN, secret)
-        res.json(TOKEN)
-    } else {
-        res.send("not authorized");
-    }
-});
 
-
+module.exports = router;
 
 
 
@@ -64,4 +68,3 @@ router.post('/register', async(req,res) =>{
 
 
 
-module.exports = router
