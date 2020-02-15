@@ -11,7 +11,7 @@ module.exports = {
     async newUser(body) {
         if (body.password === body.repeatPassword) {
             const user = await  usersDB.findOne({ email: body.email })
-            if (!user) {
+            if (user) {
                 return false;
             } else {
                 const hashedPassword = await bcrypt.hash(body.password, 10)
@@ -19,7 +19,7 @@ module.exports = {
                     name: body.name,
                     email: body.email,
                     password: hashedPassword,
-                    role: "admin",
+                    role: "customer", // change to admin as per requirement
                     
                     
                     adress: {
@@ -51,7 +51,7 @@ module.exports = {
                  }
                     const secret = process.env.TOKEN_SECRET
                     const token = jwt.sign(payload, secret);
-                    console.log(token)
+                    
            
 
                      const userAuth = {

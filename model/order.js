@@ -3,7 +3,7 @@ const orderDB =  new Datastore({ filename:'Data/order.db', autoload: true });
 
 module.exports = {
 
-async orderDB(){
+async all(){
      return await orderDB.find({}); 
  },
 
