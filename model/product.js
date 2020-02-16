@@ -2,11 +2,12 @@ const Datastore  =  require('nedb-promise');
 const productDB =  new Datastore({ filename:'Data/product.db', autoload: true });
 
 module.exports ={
-    async  all(){
+
+    async  all() {
         return await productDB.find({})
     },
 
-    async get(id){
+    async get(id) {
          return await productDB.findOne({_id: id})
 
     },
@@ -14,6 +15,7 @@ module.exports ={
       async create(body) {
 
         return await productDB.insert({
+            _id:body.id,
             serial : body.serial,
             title: body.title,
             price: body.price,
@@ -35,9 +37,5 @@ module.exports ={
                 return product   
 
         }
-
-    
-    
-
 
 }

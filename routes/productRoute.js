@@ -34,23 +34,25 @@ router.post('/products',verifyRoute.verifyRoute, async (req, res) => {
 
 
 router.patch('/products/:id',verifyRoute.verifyRoute, async (req, res) => {
-    const product = await productDB.update(req.params.id, req.body);
-    if(product){
+    
+    if(req.user.role ==="admin")  {
+        const product = await productDB.update(req.params.id, req.body);
         res.json(product)
         
     } else{
-        res.json({ message: 'Product updated' })
+        res.json({ message: 'Product not updated' })
     }
 });
 
 router.delete('/products/:id',verifyRoute.verifyRoute, async (req, res) => {
-    const product = await productDB.remove(req.params.id);
     
-    if(user){
+    
+    if(req.user.role ==="admin"){
+        const product = await productDB.remove(req.params.id);
         res.json(product)
         
     } else{
-        res.json({ message: 'Product removed' })
+        res.json({ message: 'Product  cannot removed' })
     }
 }) 
 module.exports = router;

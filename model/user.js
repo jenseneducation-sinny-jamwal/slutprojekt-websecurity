@@ -5,6 +5,7 @@ usersDB.loadDatabase();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require('dotenv').config()
+const Order = require('../model/order');
 
 
 module.exports = {
@@ -26,8 +27,13 @@ module.exports = {
                         street: body.adress.street,
                         zip: body.adress.zip,
                         city: body.adress.city
-                    }
-                }
+                    },
+
+                      orderHistory:[]
+
+                
+                
+                };
                 return await usersDB.insert(newUser);
             }
         } else {
@@ -46,15 +52,13 @@ module.exports = {
                          const payload = {
                           email: user.email,
                            role:user.role,
-                           _id: user._id
+                           userId: user._id
                
                  }
                     const secret = process.env.TOKEN_SECRET
                     const token = jwt.sign(payload, secret);
                     
-           
-
-                     const userAuth = {
+                    const userAuth = {
 
                         token:token,
                       user: {
@@ -67,19 +71,26 @@ module.exports = {
                      city: user.adress.city,
                      zip: user.adress.zip
                       },
-                    } 
-                     } 
+                      orderHistory: user.orderHistory
+                } 
+                 } 
                      return userAuth
 
-            }
-        
-             else {
+            } else {
                 return false
             }
                
         
         }
-    }
+    },
+
+    async myPayment(userId, payment) {
+        await usersDB.update({ _id: userId }, { $set: { payment: payment } });
+    },
+    async myOrder(userId, orderId) {
+        await usersDB.update({ _id: userId }, { $push: { orderHistory: orderId } });
+  } 
+
 };
 
 

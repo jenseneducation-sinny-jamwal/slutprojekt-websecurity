@@ -1,30 +1,35 @@
 const {Router} = require('express');
 const router = new Router();
 const orderDB = require('../model/order');
+const verifyRoute = require('./verifyRoute') ;
 
-router.get('/', async(req,res) =>{
-    const order = await orderDB.all()
-    res.json(order)
+router.get('/', verifyRoute.verifyRoute ,async(req,res) =>{
+    try {
+         if (req.user.role === "admin"){
+            const user = await orderDB.find();
+            res.json(user);
+
+         }else if(req.user.role === "customer"){
+             const user = await orderDB.getOne(req.user.ID);
+             res.json(user);
+           }
+         } catch (error) {
+       
+           res.json({ message: error });
+         }
+   
     
-});
+  });
 
-router.get('/:id', async (req, res) => {
-    const order = await orderDB.create(req.params.id);
-    if(order){
-        res.json(order)
+router.post('/', verifyRoute.verifyRoute, async (req, res) => {
+    try {
+        const userOrder = await orderDB.create(req.body, req.user.userId);
+        res.json(userOrder);
+      } catch (error) {
         
-    } else{
-        res.json({ message: 'order created' })
-    }
-});
+        res.json({ message: error });
+      }
+    
 
-router.post('/', async (req, res) => {
-    const order = await orderDB.create(req.body);
-    if(order){
-        res.json(order)
-        
-    } else{
-        res.json({ message: 'Product created' })
-    }
-});
+ });
 module.exports = router;

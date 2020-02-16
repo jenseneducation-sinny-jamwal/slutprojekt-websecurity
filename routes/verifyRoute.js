@@ -13,12 +13,12 @@ module.exports = {
         req.user = verifiedUser;
     
       } catch (error) {
-        res.status(400).json({message:'user is not verified'})
+        res.status(400).json({message:'user is not verified'});
         //console.log(error);
       }
      
     
-    next()
+    next();
     
   }
-}
+};
