@@ -7,7 +7,7 @@ module.exports ={
         return await productDB.find({})
     },
 
-    async get(id) {
+    async getOne(id) {
          return await productDB.findOne({_id: id})
 
     },

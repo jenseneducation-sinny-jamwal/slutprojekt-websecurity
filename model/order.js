@@ -5,6 +5,14 @@ const Product = require("./product");
 
 module.exports = {
 
+      async all() {
+        return await orderDB.find({}); 
+       },
+
+       async getOne(userId) {
+          return await orderDB.findOne({owner:userId})
+      },
+
  async create(body , userId) {
 /*
     let total = 0
@@ -33,17 +41,7 @@ module.exports = {
          await User.myPayment(userId,body.payment)
          await User.myOrder(userId,updateOrder._id)
          return updateOrder
-    },
-
-
-    async all(){
-        return await orderDB.find({}); 
-    },
-
-    async getOne(userId){
-        return await orderDB.findOne({owner:userId})
-     },
+    },   
    
-
 
 }
