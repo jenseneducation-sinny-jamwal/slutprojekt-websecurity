@@ -31,17 +31,20 @@ module.exports = {
            items: body.items,
           // orderValue: total
 
-     }
+     };
      //return await orderDB.insert(order)
      
      
 
 
-     const updateOrder =  await orderDB.insert(order)
-         await User.myPayment(userId,body.payment)
-         await User.myOrder(userId,updateOrder._id)
-         return updateOrder
-    },   
+     const updateOrder =  await orderDB.insert(order);
+
+         await User.myPayment(userId,body.payment);
+         await User.myOrder(userId,updateOrder._id);
+         return updateOrder;
+    }
+    
+
    
 
-}
+};

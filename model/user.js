@@ -87,8 +87,8 @@ module.exports = {
     async myPayment(userId, payment) {
         await usersDB.update({ _id: userId }, { $set: { payment: payment } });
     },
-    async myOrder(userId, _id) {
-        await usersDB.update({ _id: userId }, { $push: { orderHistory: _id } });
+    async myOrder(userId,_id  ){
+        await usersDB.update({ _id: userId }, { $push: { orderHistory:_id } });
   } 
 
 };
